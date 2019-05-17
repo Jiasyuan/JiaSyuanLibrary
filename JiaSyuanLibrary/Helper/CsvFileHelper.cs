@@ -25,9 +25,12 @@ namespace JiaSyuanLibrary.Helper
                 {
                     file.WriteLineAsync(string.Join(",", propInfos.Select(s => s.Name)));
                 }
-                foreach (var item in dataCollections)
+                if (dataCollections != null && dataCollections.Count > 0)
                 {
-                    file.WriteLineAsync(string.Join(",", propInfos.Select(s => s.GetValue(item))));
+                    foreach (var item in dataCollections)
+                    {
+                        file.WriteLineAsync(string.Join(",", propInfos.Select(s => s.GetValue(item))));
+                    }
                 }
             }
         }
