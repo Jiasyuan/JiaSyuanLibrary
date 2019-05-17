@@ -1,8 +1,8 @@
-﻿using JiaSyuanLibrary.Enums;
-using Microsoft.International.Formatters;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using JiaSyuanLibrary.Enums;
+using Microsoft.International.Formatters;
 
 
 namespace JiaSyuanLibrary.Helper
@@ -22,20 +22,28 @@ namespace JiaSyuanLibrary.Helper
             return ToString((decimal)value, format);
         }
 
-        public static string ToString(this decimal value, CurrencyFormat format)
+        /// <summary>
+        /// decimal ToString
+        /// </summary>
+        /// <param name="value"> decimal value</param>
+        /// <param name="format">Currency Format</param>
+        /// <param name="deciamlPlaces">Reserved deciaml Places</param>
+        /// <returns></returns>
+        public static string ToString(this decimal value, CurrencyFormat format, int deciamlPlaces = 2)
         {
             switch (format)
             {
                 case CurrencyFormat.Chinese:
                     //ref http://blog.darkthread.net/post-2009-12-23-chinese-number-char.aspx
                     var t = EastAsiaNumericFormatter.FormatWithCulture("L", value, null, _twCulture);
-                    //修正EastAsiaNumericFormatter.FormatWithCulture出現"三百十"之問題，修正為三百一十的慣用寫法
                     var res = _regFixOne.Replace(t, m => "壹");
                     //拾萬需補為壹拾萬
                     if (res.StartsWith("拾")) res = "壹" + res;
                     return res;
                 case CurrencyFormat.Comma:
                     return Math.Truncate(value).ToString("N");  //去小數
+                case CurrencyFormat.CommaDeciamlPlaces:
+                    return Math.Round(value, deciamlPlaces).ToString($"N{deciamlPlaces}");
                 default:
                     return value.ToString();
             }

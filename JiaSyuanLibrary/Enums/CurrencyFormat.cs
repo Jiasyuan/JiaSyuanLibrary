@@ -3,6 +3,7 @@
     public enum CurrencyFormat
     {
         Chinese,
-        Comma
+        Comma,
+        CommaDeciamlPlaces
     }
 }
