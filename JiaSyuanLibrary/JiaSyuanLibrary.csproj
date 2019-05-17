@@ -64,6 +64,7 @@
     <Compile Include="Enums\EnumContentType.cs" />
     <Compile Include="Helper\ApiHelper.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
+    <Compile Include="Helper\CsvFileHelper.cs" />
     <Compile Include="Helper\CurrencyHelper.cs" />
     <Compile Include="Helper\DateTimeHelper.cs" />
     <Compile Include="Helper\EncryptHelper.cs" />
