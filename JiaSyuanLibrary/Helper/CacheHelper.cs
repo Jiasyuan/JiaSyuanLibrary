@@ -1,5 +1,5 @@
-﻿using CacheManager.Core;
-using System;
+﻿using System;
+using CacheManager.Core;
 
 namespace JiaSyuanLibrary.Helper
 {
