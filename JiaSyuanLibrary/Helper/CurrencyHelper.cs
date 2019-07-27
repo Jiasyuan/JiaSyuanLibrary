@@ -22,7 +22,14 @@ namespace JiaSyuanLibrary.Helper
             return ToString((decimal)value, format);
         }
 
-        public static string ToString(this decimal value, CurrencyFormat format)
+        /// <summary>
+        /// Conver decimal  to  different formal string
+        /// </summary>
+        /// <param name="value">decimal value</param>
+        /// <param name="format"></param>
+        /// <param name="decimalNumber">保留的小數位數</param>
+        /// <returns></returns>
+        public static string ToString(this decimal value, CurrencyFormat format, int decimalNumber=2)
         {
             switch (format)
             {
@@ -36,6 +43,8 @@ namespace JiaSyuanLibrary.Helper
                     return res;
                 case CurrencyFormat.Comma:
                     return Math.Truncate(value).ToString("N");  //去小數
+                case CurrencyFormat.CommaReservedDecimalNumber:
+                    return Math.Rund(value, decimalNumber).ToString($"N{ decimalNumber}");
                 default:
                     return value.ToString();
             }

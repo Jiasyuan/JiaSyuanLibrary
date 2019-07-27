@@ -2,7 +2,16 @@
 {
     public enum CurrencyFormat
     {
+        /// <summary>
+        /// 中文大寫
+        /// </summary>
         Chinese,
-        Comma
+        /// <summary>
+        /// 整數Comma
+        /// </summary>
+        Comma,
+        CommaReservedDecimalNumber
+
+
     }
 }

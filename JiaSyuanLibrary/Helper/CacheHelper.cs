@@ -53,6 +53,11 @@ namespace JiaSyuanLibrary.Helper
                 return result;
             }
 
+            /// <summary>
+            /// Update Cache Value
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="UpdateSource"></param>
             public void Update(string key, object UpdateSource)
             {
                 cacheManger.AddOrUpdate(key, (TCacheValueObject)UpdateSource, v => (TCacheValueObject)UpdateSource);
