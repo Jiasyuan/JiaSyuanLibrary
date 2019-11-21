@@ -15,7 +15,7 @@ namespace JiaSyuanLibrary.Helper
         /// <returns></returns>
         public static OutPut MapperProperties<InPut, OutPut>(InPut inPut)
         {
-            OutPut outPut = default(OutPut);
+            OutPut outPut = default;
             if (inPut != null)
             {
                 var config = new MapperConfiguration(cfg =>
@@ -38,7 +38,7 @@ namespace JiaSyuanLibrary.Helper
         /// <returns></returns>
         public static IEnumerable<OutPut> MapperProperties<InPut, OutPut>(IEnumerable<InPut> inPut)
         {
-            IEnumerable<OutPut> outPut = default(IEnumerable<OutPut>);
+            IEnumerable<OutPut> outPut = default;
             if (inPut != null && inPut.Count() > 0)
             {
                 var config = new MapperConfiguration(cfg =>

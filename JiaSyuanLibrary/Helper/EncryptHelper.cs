@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace JiaSyuanLibrary.Helper
 {
@@ -20,15 +20,17 @@ namespace JiaSyuanLibrary.Helper
     {
         #region Encrypt
         /// <summary>
-        ///MD5字串加密
+        ///MD5
         /// </summary>
         /// <param name="original">原字串</param>
         /// <returns>加密後字串</returns>
         public static string GetMD5(string original)
         {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] b = md5.ComputeHash(Encoding.UTF8.GetBytes(original));
-            return BitConverter.ToString(b).Replace("-", string.Empty);
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] b = md5.ComputeHash(Encoding.UTF8.GetBytes(original));
+                return BitConverter.ToString(b).Replace("-", string.Empty);
+            }
         }
 
         /// <summary>
@@ -43,23 +45,25 @@ namespace JiaSyuanLibrary.Helper
                 throw new ArgumentNullException("original");
             if (desKey == null || desKey.Length <= 0)
                 throw new ArgumentNullException("Key");
-            Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(desKey, new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(desKey)));
-            DESCryptoServiceProvider desProvider = new DESCryptoServiceProvider();
-            desProvider.Key = rfc2898.GetBytes(desProvider.KeySize / 8);
-            desProvider.IV = rfc2898.GetBytes(desProvider.BlockSize / 8);
-
-            string encrypt = "";
-            byte[] originalByteArray = Encoding.UTF8.GetBytes(original);
-            using (MemoryStream ms = new MemoryStream())
+            using (Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(desKey, new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(desKey))))
             {
-                using (CryptoStream cs = new CryptoStream(ms, desProvider.CreateEncryptor(), CryptoStreamMode.Write))
+                DESCryptoServiceProvider desProvider = new DESCryptoServiceProvider();
+                desProvider.Key = rfc2898.GetBytes(desProvider.KeySize / 8);
+                desProvider.IV = rfc2898.GetBytes(desProvider.BlockSize / 8);
+
+                string encrypt = "";
+                byte[] originalByteArray = Encoding.UTF8.GetBytes(original);
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    cs.Write(originalByteArray, 0, originalByteArray.Length);
-                    cs.FlushFinalBlock();
-                    encrypt = Convert.ToBase64String(ms.ToArray());
+                    using (CryptoStream cs = new CryptoStream(ms, desProvider.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(originalByteArray, 0, originalByteArray.Length);
+                        cs.FlushFinalBlock();
+                        encrypt = Convert.ToBase64String(ms.ToArray());
+                    }
                 }
+                return encrypt;
             }
-            return encrypt;
         }
 
         /// <summary>
@@ -74,23 +78,25 @@ namespace JiaSyuanLibrary.Helper
                 throw new ArgumentNullException("original");
             if (string.IsNullOrEmpty(aesKey))
                 throw new ArgumentNullException("Key");
-            AesCryptoServiceProvider aesProvider = new AesCryptoServiceProvider()
+            using (AesCryptoServiceProvider aesProvider = new AesCryptoServiceProvider()
             {
                 Key = Convert.FromBase64String(aesKey),
                 IV = Convert.FromBase64String(aesIV)
-            };
-            string encrypt = "";
-            byte[] originalByteArray = Encoding.UTF8.GetBytes(original);
-            using (MemoryStream ms = new MemoryStream())
+            })
             {
-                using (CryptoStream cs = new CryptoStream(ms, aesProvider.CreateEncryptor(), CryptoStreamMode.Write))
+                string encrypt = "";
+                byte[] originalByteArray = Encoding.UTF8.GetBytes(original);
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    cs.Write(originalByteArray, 0, originalByteArray.Length);
-                    cs.FlushFinalBlock();
-                    encrypt = Convert.ToBase64String(ms.ToArray());
+                    using (CryptoStream cs = new CryptoStream(ms, aesProvider.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(originalByteArray, 0, originalByteArray.Length);
+                        cs.FlushFinalBlock();
+                        encrypt = Convert.ToBase64String(ms.ToArray());
+                    }
                 }
+                return encrypt;
             }
-            return encrypt;
         }
         #endregion
 
@@ -107,23 +113,25 @@ namespace JiaSyuanLibrary.Helper
                 throw new ArgumentNullException("encryptString");
             if (string.IsNullOrEmpty(desKey))
                 throw new ArgumentNullException("Key");
-            Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(desKey, new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(desKey)));
-            DESCryptoServiceProvider desProvider = new DESCryptoServiceProvider();
-            desProvider.Key = rfc2898.GetBytes(desProvider.KeySize / 8);
-            desProvider.IV = rfc2898.GetBytes(desProvider.BlockSize / 8);
-
-            byte[] dataByteArray = Convert.FromBase64String(encryptString);
-            string decrypt = "";
-            using (MemoryStream ms = new MemoryStream())
+            using (Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(desKey, new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(desKey))))
             {
-                using (CryptoStream cs = new CryptoStream(ms, desProvider.CreateDecryptor(), CryptoStreamMode.Write))
+                DESCryptoServiceProvider desProvider = new DESCryptoServiceProvider();
+                desProvider.Key = rfc2898.GetBytes(desProvider.KeySize / 8);
+                desProvider.IV = rfc2898.GetBytes(desProvider.BlockSize / 8);
+
+                byte[] dataByteArray = Convert.FromBase64String(encryptString);
+                string decrypt = "";
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    cs.Write(dataByteArray, 0, dataByteArray.Length);
-                    cs.FlushFinalBlock();
-                    decrypt = Encoding.UTF8.GetString(ms.ToArray());
+                    using (CryptoStream cs = new CryptoStream(ms, desProvider.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(dataByteArray, 0, dataByteArray.Length);
+                        cs.FlushFinalBlock();
+                        decrypt = Encoding.UTF8.GetString(ms.ToArray());
+                    }
                 }
+                return decrypt;
             }
-            return decrypt;
         }
 
         /// <summary>

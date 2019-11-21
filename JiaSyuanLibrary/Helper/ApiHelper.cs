@@ -1,8 +1,8 @@
 ﻿using JiaSyuanLibrary.Enums;
-using System.Text.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Text.Json;
 
 namespace JiaSyuanLibrary.Helper
 {
@@ -10,7 +10,7 @@ namespace JiaSyuanLibrary.Helper
     {
         private static string GetAPIContentType(EnumContentType ContentType)
         {
-            string result = default(string);
+            string result;
             switch (ContentType)
             {
                 case EnumContentType.json:
@@ -77,14 +77,14 @@ namespace JiaSyuanLibrary.Helper
             }
             else if (string.IsNullOrWhiteSpace(getParam))
             {
-                getParam = default(string);
+                getParam = default;
             }
 
             // 整理呼叫的url
             string apiURL = CombinePath(apiServer, methodName) + getParam;
 
             HttpWebRequest request = HttpWebRequest.Create(apiURL) as HttpWebRequest;
-            string PostTypeStr = default(string);
+            string PostTypeStr =string.Empty;
             switch (apiMethodType)
             {
                 case EnumApiMethodType.Post:
@@ -120,7 +120,7 @@ namespace JiaSyuanLibrary.Helper
                         reqStream.Write(bs, 0, bs.Length);
                     }
                 }
-                string jsonResult = default(string);
+                string jsonResult = default;
                 using (var response = request.GetResponse() as HttpWebResponse)
                 {
                     using (var stream = response.GetResponseStream())
@@ -172,6 +172,9 @@ namespace JiaSyuanLibrary.Helper
         }
     }
 
+    /// <summary>
+    /// Const Setting
+    /// </summary>
     internal static class ConstSetting
     {
         public static string ContentTypeJson => "application/json";
