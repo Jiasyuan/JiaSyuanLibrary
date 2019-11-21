@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomAttribute\FixLenthAttribute.cs" />
     <Compile Include="Enums\CurrencyFormat.cs" />
     <Compile Include="Enums\DateTimeInterval.cs" />
     <Compile Include="Enums\EnumApiMethodType.cs" />
