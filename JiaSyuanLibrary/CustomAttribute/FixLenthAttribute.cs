@@ -8,6 +8,11 @@ namespace JiaSyuanLibrary.CustomAttribute
     public class FixLenthAttribute: Attribute
     {
         /// <summary>
+        /// Total Lenth
+        /// </summary>
+        public int TotalLenth { get; set; }
+
+        /// <summary>
         /// Fix Lenth Order
         /// </summary>
         public int Order { get; set; }
@@ -23,7 +28,7 @@ namespace JiaSyuanLibrary.CustomAttribute
         public int RepeatTimes { get; set; }
 
         /// <summary>
-        /// 
+        /// Is Pad Left
         /// </summary>
         public bool IsPadLeft { get; set; } = true;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JiaSyuanLibrary.CustomAttribute;
 
 namespace JiaSyuanLibrary.Helper
 {
@@ -19,7 +20,14 @@ namespace JiaSyuanLibrary.Helper
         /// <returns></returns>
         public static T FixLenthDeserialize<T>(string FixLenthString)
         {
-            CheckLenth(FixLenthString);
+            if (CheckLenth(FixLenthString))
+            {
+                //TODO:FixLenthDeserialize
+            }
+            else
+            {
+                throw new Exception("Input Incorrect");
+            }
             throw new NotImplementedException();
         }
 
