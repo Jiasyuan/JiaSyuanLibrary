@@ -1,5 +1,5 @@
 ﻿using JiaSyuanLibrary.Enums;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.IO;
 using System.Net;
@@ -28,12 +28,12 @@ namespace JiaSyuanLibrary.Helper
 
         public static string SerializeToJson<T>(this T objectToSerialize)
         {
-            return JsonConvert.SerializeObject(objectToSerialize);
+            return JsonSerializer.Serialize(objectToSerialize);
         }
 
         public static T DeserializeJson<T>(string fromJsonString)
         {
-            return (T)JsonConvert.DeserializeObject(fromJsonString, typeof(T));
+            return (T)JsonSerializer.Deserialize(fromJsonString, typeof(T));
         }
 
         private static string CombinePath(string serverBasePath, string callPath)
@@ -161,7 +161,7 @@ namespace JiaSyuanLibrary.Helper
                 {
                     HttpWebResponse res = (HttpWebResponse)webException.Response;
                     var pageContent = reader.ReadToEnd();
-                    T result = JsonConvert.DeserializeObject<T>(pageContent);
+                    T result = JsonSerializer.Deserialize<T>(pageContent);
                     return result;
                 }
             }
