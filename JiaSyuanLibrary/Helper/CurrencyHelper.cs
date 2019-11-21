@@ -1,8 +1,8 @@
-﻿using System;
+﻿using JiaSyuanLibrary.Enums;
+using Microsoft.International.Formatters;
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using JiaSyuanLibrary.Enums;
-using Microsoft.International.Formatters;
 
 
 namespace JiaSyuanLibrary.Helper
@@ -35,8 +35,7 @@ namespace JiaSyuanLibrary.Helper
             {
                 case CurrencyFormat.Chinese:
                     //ref http://blog.darkthread.net/post-2009-12-23-chinese-number-char.aspx
-                    var t = EastAsiaNumericFormatter.FormatWithCulture("L", value, null, _twCulture);
-                    var res = _regFixOne.Replace(t, m => "壹");
+                    var res = _regFixOne.Replace(EastAsiaNumericFormatter.FormatWithCulture("L", value, null, _twCulture), m => "壹");
                     //拾萬需補為壹拾萬
                     if (res.StartsWith("拾")) res = "壹" + res;
                     return res;
