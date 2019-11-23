@@ -1,5 +1,5 @@
-﻿using CacheManager.Core;
-using System;
+﻿using System;
+using CacheManager.Core;
 
 namespace JiaSyuanLibrary.Helper
 {
@@ -7,7 +7,7 @@ namespace JiaSyuanLibrary.Helper
     {
         protected class CacherInner<TCacheValueObject> : LazySingletonWrapBase<CacherInner<TCacheValueObject>>
         {
-            private ICacheManager<TCacheValueObject> cacheManger;
+            private readonly ICacheManager<TCacheValueObject> cacheManger;
 
             /// <summary>
             /// CacheManager 的內部功能設置
@@ -32,7 +32,7 @@ namespace JiaSyuanLibrary.Helper
             /// <returns></returns>
             public TCacheValueObject Get(string key, Func<TCacheValueObject> dataAccessProvideer, string region = default(string), TimeSpan expireTime = default(TimeSpan), TimeSpan offsetTime = default(TimeSpan))
             {
-                TCacheValueObject result = default(TCacheValueObject);
+                TCacheValueObject result;
                 if (region != default(string))
                 {
                     result = cacheManger.Get<TCacheValueObject>(key, region);

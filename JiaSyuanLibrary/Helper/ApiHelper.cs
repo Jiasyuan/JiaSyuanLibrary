@@ -1,8 +1,8 @@
 ﻿using JiaSyuanLibrary.Enums;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Text.Json;
 
 namespace JiaSyuanLibrary.Helper
 {
@@ -10,7 +10,7 @@ namespace JiaSyuanLibrary.Helper
     {
         private static string GetAPIContentType(EnumContentType ContentType)
         {
-            string result = default(string);
+            string result;
             switch (ContentType)
             {
                 case EnumContentType.json:
@@ -28,12 +28,12 @@ namespace JiaSyuanLibrary.Helper
 
         public static string SerializeToJson<T>(this T objectToSerialize)
         {
-            return JsonConvert.SerializeObject(objectToSerialize);
+            return JsonSerializer.Serialize(objectToSerialize);
         }
 
         public static T DeserializeJson<T>(string fromJsonString)
         {
-            return (T)JsonConvert.DeserializeObject(fromJsonString, typeof(T));
+            return (T)JsonSerializer.Deserialize(fromJsonString, typeof(T));
         }
 
         private static string CombinePath(string serverBasePath, string callPath)
@@ -77,14 +77,14 @@ namespace JiaSyuanLibrary.Helper
             }
             else if (string.IsNullOrWhiteSpace(getParam))
             {
-                getParam = default(string);
+                getParam = default;
             }
 
             // 整理呼叫的url
             string apiURL = CombinePath(apiServer, methodName) + getParam;
 
             HttpWebRequest request = HttpWebRequest.Create(apiURL) as HttpWebRequest;
-            string PostTypeStr = default(string);
+            string PostTypeStr =string.Empty;
             switch (apiMethodType)
             {
                 case EnumApiMethodType.Post:
@@ -120,7 +120,7 @@ namespace JiaSyuanLibrary.Helper
                         reqStream.Write(bs, 0, bs.Length);
                     }
                 }
-                string jsonResult = default(string);
+                string jsonResult = default;
                 using (var response = request.GetResponse() as HttpWebResponse)
                 {
                     using (var stream = response.GetResponseStream())
@@ -161,17 +161,20 @@ namespace JiaSyuanLibrary.Helper
                 {
                     HttpWebResponse res = (HttpWebResponse)webException.Response;
                     var pageContent = reader.ReadToEnd();
-                    T result = JsonConvert.DeserializeObject<T>(pageContent);
+                    T result = JsonSerializer.Deserialize<T>(pageContent);
                     return result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw ;
             }
         }
     }
 
+    /// <summary>
+    /// Const Setting
+    /// </summary>
     internal static class ConstSetting
     {
         public static string ContentTypeJson => "application/json";

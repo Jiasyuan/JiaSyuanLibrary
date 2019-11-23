@@ -48,7 +48,7 @@ namespace JiaSyuanLibrary.Helper
             {
                 formatInfo = DateTimeFormatInfo.InvariantInfo;
             }
-            return DateTime.ParseExact(DateTimeString, format, formatInfo, System.Globalization.DateTimeStyles.None);
+            return DateTime.ParseExact(DateTimeString, format, formatInfo, DateTimeStyles.None);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace JiaSyuanLibrary.Helper
             {
                 formatInfo = DateTimeFormatInfo.InvariantInfo;
             }
-            if (DateTime.TryParseExact(DateTimeString, format, formatInfo, System.Globalization.DateTimeStyles.None, out outDateTime))
+            if (DateTime.TryParseExact(DateTimeString, format, formatInfo, DateTimeStyles.None, out outDateTime))
             {
                 return outDateTime;
             }
