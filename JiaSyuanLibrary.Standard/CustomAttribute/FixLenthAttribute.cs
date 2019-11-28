@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JiaSyuanLibrary.CustomAttribute
+namespace JiaSyuanLibrary.Standard.CustomAttribute
 {
     /// <summary>
     /// Fix Lenth Attribute

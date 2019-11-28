@@ -84,7 +84,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAttribute\FixLenthAttribute.cs" />
     <Compile Include="Enums\CurrencyFormat.cs" />
     <Compile Include="Enums\DateTimeInterval.cs" />
     <Compile Include="Enums\EnumApiMethodType.cs" />
@@ -95,13 +94,15 @@
     <Compile Include="Helper\CurrencyHelper.cs" />
     <Compile Include="Helper\DateTimeHelper.cs" />
     <Compile Include="Helper\EncryptHelper.cs" />
-    <Compile Include="Helper\FixLenthHelper.cs" />
     <Compile Include="Helper\MapperHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomAttribute\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
