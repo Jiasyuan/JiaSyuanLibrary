@@ -1,8 +1,8 @@
-﻿using JiaSyuanLibrary.Enums;
-using Microsoft.International.Formatters;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using JiaSyuanLibrary.Enums;
+using Microsoft.International.Formatters;
 
 
 namespace JiaSyuanLibrary.Helper
@@ -44,7 +44,7 @@ namespace JiaSyuanLibrary.Helper
                 case CurrencyFormat.Comma:
                     return Math.Truncate(value).ToString("N");  //去小數
                 case CurrencyFormat.CommaReservedDecimalNumber:
-                    return Math.Rund(value, decimalNumber).ToString($"N{ decimalNumber}");
+                    return Math.Round(value, decimalNumber).ToString($"N{ decimalNumber}");
                 default:
                     return value.ToString();
             }
