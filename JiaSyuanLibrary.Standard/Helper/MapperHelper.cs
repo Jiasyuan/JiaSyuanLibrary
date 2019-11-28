@@ -1,30 +1,30 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 
-namespace JiaSyuanLibrary.Helper
+namespace JiaSyuanLibrary.Standard.Helper
 {
     public class MapperHelper
     {
         /// <summary>
         /// Mapper All Properties IgnoreAllNonExisting
         /// </summary>
-        /// <typeparam name="InPut"></typeparam>
-        /// <typeparam name="OutPut"></typeparam>
+        /// <typeparam name="TInPut"></typeparam>
+        /// <typeparam name="TOutPut"></typeparam>
         /// <param name="inPut"></param>
         /// <returns></returns>
-        public static OutPut MapperProperties<InPut, OutPut>(InPut inPut)
+        public static TOutPut MapperProperties<TInPut, TOutPut>(TInPut inPut)
         {
-            OutPut outPut = default;
+            TOutPut outPut = default;
             if (inPut != null)
             {
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<InPut, OutPut>(MemberList.None);
+                    cfg.CreateMap<TInPut, TOutPut>(MemberList.None);
                 });
                 config.AssertConfigurationIsValid();//←證驗應對
                 var mapper = config.CreateMapper();
-                outPut = mapper.Map<OutPut>(inPut);
+                outPut = mapper.Map<TOutPut>(inPut);
             }
             return outPut;
         }
@@ -36,18 +36,18 @@ namespace JiaSyuanLibrary.Helper
         /// <typeparam name="OutPut"></typeparam>
         /// <param name="inPut"></param>
         /// <returns></returns>
-        public static IEnumerable<OutPut> MapperProperties<InPut, OutPut>(IEnumerable<InPut> inPut)
+        public static IEnumerable<TOutPut> MapperProperties<TInPut, TOutPut>(IEnumerable<TInPut> inPut)
         {
-            IEnumerable<OutPut> outPut = default;
-            if (inPut != null && inPut.Count() > 0)
+            IEnumerable<TOutPut> outPut = default;
+            if (inPut != null && inPut.Any())
             {
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<InPut, OutPut>(MemberList.None);
+                    cfg.CreateMap<TInPut, TOutPut>(MemberList.None);
                 });
                 config.AssertConfigurationIsValid();//←證驗應對
                 var mapper = config.CreateMapper();
-                outPut = mapper.Map<IEnumerable<OutPut>>(inPut);
+                outPut = mapper.Map<IEnumerable<TOutPut>>(inPut);
             }
             return outPut;
         }

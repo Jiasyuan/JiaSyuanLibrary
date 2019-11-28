@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="InternationalNumericFormatter">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio International Feature Pack 2.0\NumericConversion\InternationalNumericFormatter.dll</HintPath>
     </Reference>
