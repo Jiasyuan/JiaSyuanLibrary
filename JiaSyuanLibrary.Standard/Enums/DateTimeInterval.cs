@@ -1,4 +1,4 @@
-﻿namespace JiaSyuanLibrary.Enums
+﻿namespace JiaSyuanLibrary.Standard.Enums
 {
     public enum DateTimeInterval
     {

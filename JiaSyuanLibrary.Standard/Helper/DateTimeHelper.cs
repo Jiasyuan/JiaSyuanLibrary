@@ -1,8 +1,8 @@
-﻿using JiaSyuanLibrary.Enums;
-using System;
+﻿using System;
 using System.Globalization;
+using JiaSyuanLibrary.Standard.Enums;
 
-namespace JiaSyuanLibrary.Helper
+namespace JiaSyuanLibrary.Standard.Helper
 {
     public static class DateTimeHelper
     {

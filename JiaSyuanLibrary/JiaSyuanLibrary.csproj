@@ -84,16 +84,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\CurrencyFormat.cs" />
-    <Compile Include="Enums\DateTimeInterval.cs" />
     <Compile Include="Enums\EnumApiMethodType.cs" />
     <Compile Include="Enums\EnumContentType.cs" />
     <Compile Include="Helper\ApiHelper.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\CsvFileHelper.cs" />
-    <Compile Include="Helper\CurrencyHelper.cs" />
-    <Compile Include="Helper\DateTimeHelper.cs" />
-    <Compile Include="Helper\EncryptHelper.cs" />
     <Compile Include="Helper\MapperHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
