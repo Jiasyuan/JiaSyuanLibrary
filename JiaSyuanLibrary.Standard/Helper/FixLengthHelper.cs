@@ -25,11 +25,11 @@ namespace JiaSyuanLibrary.Standard.Helper
         {
             Type type = typeof(T);
             var modelCustomAttribute = type.GetTypeInfo().GetCustomAttributes().FirstOrDefault() as FixLengthAttribute;
+            T firstModel = Activator.CreateInstance<T>();
             if (CheckLength(fixLengthString, modelCustomAttribute?.TotalLength ?? 0))
             {
                 var topPropertyInfos = GetPropertyInfosAndSort(type);
                 int index = 0;
-                T firstModel = Activator.CreateInstance<T>();
                 foreach (var topPropertyInfo in topPropertyInfos)
                 {
                     if (typeof(IEnumerable).IsAssignableFrom(topPropertyInfo.PropertyType) &&
@@ -47,7 +47,7 @@ namespace JiaSyuanLibrary.Standard.Helper
             {
                 throw new Exception("Input Incorrect");
             }
-            throw new NotImplementedException();
+            return firstModel;
         }
 
         /// <summary>
