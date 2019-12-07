@@ -3,17 +3,17 @@
 namespace JiaSyuanLibrary.Standard.CustomAttribute
 {
     /// <summary>
-    /// Fix Lenth Attribute
+    /// Fix Length Attribute
     /// </summary>
-    public class FixLenthAttribute: Attribute
+    public class FixLengthAttribute: Attribute
     {
         /// <summary>
-        /// Total Lenth
+        /// Total Length
         /// </summary>
-        public int TotalLenth { get; set; }
+        public int TotalLength { get; set; }
 
         /// <summary>
-        /// Fix Lenth Order
+        /// Fix Length Order
         /// </summary>
         public int Order { get; set; }
 

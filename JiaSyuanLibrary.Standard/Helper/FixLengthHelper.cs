@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using JiaSyuanLibrary.Standard.CustomAttribute;
@@ -8,19 +9,22 @@ using JiaSyuanLibrary.Standard.CustomAttribute;
 namespace JiaSyuanLibrary.Standard.Helper
 {
     /// <summary>
-    /// FixLenthHelper
+    /// FixLengthHelper
     /// </summary>
-    public static class FixLenthHelper
+    public static class FixLengthHelper
     {
         /// <summary>
-        /// Fix Lenth String Deserialize To Object
+        /// Fix Length String Deserialize To Object
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="FixLenthString"></param>
+        /// <param name="fixLengthString"></param>
         /// <returns></returns>
-        public static T FixLenthDeserialize<T>(string FixLenthString)
+        public static T FixLengthDeserialize<T>(string fixLengthString)
         {
-            if (CheckLenth(FixLenthString))
+            TypeInfo typeInfo = typeof(T).GetTypeInfo();
+            var modelCustomAttribute = typeInfo.GetCustomAttributes().FirstOrDefault() as FixLengthAttribute;
+            int totalLength = modelCustomAttribute?.TotalLength ?? 0;
+            if (CheckLength(fixLengthString, totalLength))
             {
                 //TODO:FixLenthDeserialize
             }
@@ -32,12 +36,12 @@ namespace JiaSyuanLibrary.Standard.Helper
         }
 
         /// <summary>
-        /// Object Serialize To Fix Lenth String
+        /// Object Serialize To Fix Length String
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="InputModel"></param>
+        /// <param name="inputModel"></param>
         /// <returns></returns>
-        public static string FixLenthSerialize<T>(T InputModel)
+        public static string FixLengthSerialize<T>(T inputModel)
         {
             throw new NotImplementedException();
         }
@@ -45,9 +49,9 @@ namespace JiaSyuanLibrary.Standard.Helper
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="FixLenthString"></param>
+        /// <param name="fixLengthString"></param>
         /// <returns></returns>
-        private static bool CheckLenth(string FixLenthString)
+        private static bool CheckLength(string fixLengthString, int totalLength)
         {
             throw new NotImplementedException();
         }
