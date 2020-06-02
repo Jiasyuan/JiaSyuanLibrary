@@ -1,4 +1,8 @@
-﻿namespace JiaSyuanLibrary.Standard.Extension
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace JiaSyuanLibrary.Standard.Extension
 {
     public static class StringExtensions
     {
@@ -33,6 +37,28 @@
                     return result;
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Order by traditional Chinese strokes
+        /// </summary>
+        /// <param name="inPut"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> StringOrderbyStrokes(IEnumerable<string> inPut)
+        {
+            return inPut.OrderBy(o => o, StringComparer.Create(
+                new System.Globalization.CultureInfo("zh-TW"), false)).ToList();
+        }
+
+        /// <summary>
+        /// Order by Zhuyin
+        /// </summary>
+        /// <param name="inPut"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> StringOrderbyZhuyin(IEnumerable<string> inPut)
+        {
+            return inPut.OrderBy(o => o, StringComparer.Create(
+                new System.Globalization.CultureInfo(0x00030404), false)).ToList();
         }
     }
 }
