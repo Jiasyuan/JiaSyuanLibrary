@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using JiaSyuanLibrary.Standard.Enums;
+using JiaSyuanLibrary.Enums;
 using Microsoft.International.Formatters;
 
-namespace JiaSyuanLibrary.Standard.Helper
+namespace JiaSyuanLibrary.Helper
 {
     public static class CurrencyHelper
     {

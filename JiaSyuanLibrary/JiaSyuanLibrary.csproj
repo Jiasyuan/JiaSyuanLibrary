@@ -101,11 +101,13 @@
     <Compile Include="CustomAttribute\_Filter\CompressionAttribute.cs" />
     <Compile Include="CustomAttribute\_Filter\GZipCompressionAttribute.cs" />
     <Compile Include="CustomAttribute\_Filter\GZipDecompressionAttribute.cs" />
+    <Compile Include="Enums\CurrencyFormat.cs" />
     <Compile Include="Enums\EnumApiMethodType.cs" />
     <Compile Include="Enums\EnumContentType.cs" />
     <Compile Include="Helper\ApiHelper.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\CsvFileHelper.cs" />
+    <Compile Include="Helper\CurrencyHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

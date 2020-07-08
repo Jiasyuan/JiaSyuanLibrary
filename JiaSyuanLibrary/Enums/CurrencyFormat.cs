@@ -1,4 +1,4 @@
-﻿namespace JiaSyuanLibrary.Standard.Enums
+﻿namespace JiaSyuanLibrary.Enums
 {
     public enum CurrencyFormat
     {
