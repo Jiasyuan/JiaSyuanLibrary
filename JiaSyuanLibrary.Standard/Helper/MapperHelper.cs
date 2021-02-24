@@ -30,6 +30,31 @@ namespace JiaSyuanLibrary.Standard.Helper
         }
 
         /// <summary>
+        /// Mapper All Properties IgnoreAllNonExisting And Case Insensitive
+        /// </summary>
+        /// <typeparam name="TInPut">TSource</typeparam>
+        /// <typeparam name="TOutPut">TDestination</typeparam>
+        /// <param name="inPut">TDestination</param>
+        /// <returns></returns>
+        public static TOutPut MapperPropertiesCaseInsensitive<TInPut, TOutPut>(TInPut inPut) where TInPut : class where TOutPut : class
+        {
+            TOutPut outPut = default;
+            if (inPut != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.SourceMemberNamingConvention = new PascalCaseNamingConvention();
+                    cfg.DestinationMemberNamingConvention = new LowerUnderscoreNamingConvention();
+                    cfg.CreateMap<TInPut, TOutPut>(MemberList.None);
+                });
+                config.AssertConfigurationIsValid();//←證驗應對
+                var mapper = config.CreateMapper();
+                outPut = mapper.Map(inPut, outPut);
+            }
+            return outPut;
+        }
+        
+        /// <summary>
         /// Mapper Two Class All Properties Into Another Class
         /// </summary>
         /// <typeparam name="TInPut1">TSource 1</typeparam>
