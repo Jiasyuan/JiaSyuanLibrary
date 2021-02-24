@@ -66,6 +66,42 @@ namespace UnitTest.Core.Standard.Helper
             Assert.Equal(testModelB.PropertyDecimal, testModelC.PropertyDecimal);
             Assert.Equal(testModelB.PropertyDecimal, testModelC.PropertyDecimal);
         }
+        
+                [Fact]
+        public void MapperPropertiesPascalCaseToUpperCase()
+        {
+            var testModelPascalCase = new TestModelPascalCase()
+            {
+                PropertyString = "PropertyString",
+                PropertyInt = 100,
+                PropertyDateTime = DateTime.Now,
+                PropertyDecimal = 1991.0504M
+            };
+
+            TestModelUpperCase testModelUpperCase = MapperHelper.MapperPropertiesCaseInsensitive<TestModelPascalCase, TestModelUpperCase>(testModelPascalCase);
+            Assert.Equal(testModelPascalCase.PropertyString, testModelUpperCase.PROPERTYSTRING);
+            Assert.Equal(testModelPascalCase.PropertyInt, testModelUpperCase.PROPERTYINT);
+            Assert.Equal(testModelPascalCase.PropertyDateTime, testModelUpperCase.PROPERTYDATETIME);
+            Assert.Equal(testModelPascalCase.PropertyDecimal, testModelUpperCase.PROPERTYDECIMAL);
+        }
+
+        [Fact]
+        public void MapperPropertiesUpperCaseToPascalCase()
+        {
+            var testModelUpperCase = new TestModelUpperCase()
+            {
+                PROPERTYSTRING = "PropertyString",
+                PROPERTYINT = 100,
+                PROPERTYDATETIME = DateTime.Now,
+                PROPERTYDECIMAL = 1991.0504M
+            };
+
+            TestModelPascalCase testModelPascalCase = MapperHelper.MapperPropertiesCaseInsensitive<TestModelUpperCase, TestModelPascalCase>(testModelUpperCase);
+            Assert.Equal(testModelPascalCase.PropertyString, testModelUpperCase.PROPERTYSTRING);
+            Assert.Equal(testModelPascalCase.PropertyInt, testModelUpperCase.PROPERTYINT);
+            Assert.Equal(testModelPascalCase.PropertyDateTime, testModelUpperCase.PROPERTYDATETIME);
+            Assert.Equal(testModelPascalCase.PropertyDecimal, testModelUpperCase.PROPERTYDECIMAL);
+        }
     }
 
     public class TestModelA
@@ -94,5 +130,22 @@ namespace UnitTest.Core.Standard.Helper
         public int PropertyInt { get; set; }
         public DateTime PropertyDateTime { get; set; }
         public decimal PropertyDecimal { get; set; }
+    }
+    
+    
+    public class TestModelPascalCase
+    {
+        public string PropertyString { get; set; }
+        public int PropertyInt { get; set; }
+        public DateTime PropertyDateTime { get; set; }
+        public decimal PropertyDecimal { get; set; }
+    }
+
+    public class TestModelUpperCase
+    {
+        public string PROPERTYSTRING { get; set; }
+        public int PROPERTYINT { get; set; }
+        public DateTime PROPERTYDATETIME { get; set; }
+        public decimal PROPERTYDECIMAL { get; set; }
     }
 }
