@@ -1,6 +1,6 @@
 # JiaSyuanLibrary.NetFramework
+
 TargetFrameworkVersion:4.8.1
----
 
 ## AutoMappingHelper
 
