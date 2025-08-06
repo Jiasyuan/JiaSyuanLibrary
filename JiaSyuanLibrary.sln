@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{6306FA3F-AD8A-41E4-99D9-BFB1626553BF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiaSyuanLibrary", "JiaSyuanLibrary\JiaSyuanLibrary.csproj", "{A5FAC7BA-5A87-4E0C-81EA-B305BB15E8BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiaSyuanLibrary.Standard", "JiaSyuanLibrary.Standard\JiaSyuanLibrary.Standard.csproj", "{A9798200-CE03-4F3F-8B71-85FCC18268C1}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6306FA3F-AD8A-41E4-99D9-BFB1626553BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6306FA3F-AD8A-41E4-99D9-BFB1626553BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6306FA3F-AD8A-41E4-99D9-BFB1626553BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6306FA3F-AD8A-41E4-99D9-BFB1626553BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5FAC7BA-5A87-4E0C-81EA-B305BB15E8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A5FAC7BA-5A87-4E0C-81EA-B305BB15E8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5FAC7BA-5A87-4E0C-81EA-B305BB15E8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
