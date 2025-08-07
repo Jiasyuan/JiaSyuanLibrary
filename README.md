@@ -1,6 +1,6 @@
 # JiaSyuanLibrary.Net
 
-## AutoMappingHelper (DI 版本)
+## 🔧 AutoMappingHelper（DI 版本）
 
 本版本整合 AutoMappingHelper 與 AutoMapper 的 DI 擴充，透過模組化 Profile 註冊機制，簡化 AutoMapper 初始化流程與模組管理。
 
@@ -10,22 +10,80 @@
 
 可透過 `AddAutoMapperWithProfiles(...)` 擴充方法，註冊映射模組與 Profile。
 
-#### ✅ 使用範例
+---
+
+### 🛠️ DI 註冊方式
+
+✅ 記錄註冊過程與例外（建議用於開發環境）
+
 ```csharp
-// 手動註冊模組
-builder.Services.AddAutoMapperWithProfiles(reg =>
+services.AddAutoMapperWithProfiles(registry =>
 {
-    AutoMapperModules.RegisterModules(reg);
+    AutoMapperModules.RegisterModulesAuto(registry, loggerFactory?.CreateLogger("AutoMapperModules"));
+}, loggerFactory);
+
+```
+
+🚫 不記錄註冊過程與例外（適用於簡化場景
+
+```csharp
+services.AddAutoMapperWithProfiles(registry =>
+{
+    AutoMapperModules.RegisterModulesAuto(registry);
 });
 
-// 自動掃描並註冊模組
-builder.Services.AddAutoMapperWithProfiles(reg =>
+```
+
+### 實作 IMappingProfileModule
+
+```csharp
+using AutoMapper;
+using JiaSyuanLibrary.Net.AutoMappingHelper.Interface;
+
+public class UserProfileModule : IMappingProfileModule
 {
-    AutoMapperModules.RegisterModulesAuto(reg);
-});
+    public void Register(IProfileRegistry registry)
+    {
+        registry.Register(nameof(UserProfileModule), cfg =>
+        {
+            cfg.CreateMap<UserEntity, UserDto>();
+            cfg.CreateMap<UserDto, UserEntity>();
+        });
+    }
+}
+```
+
+### 注入 AutoMappingHelper
+
+```csharp
+public class UserService
+{
+    private readonly AutoMappingHelper _mapper;
+
+    public UserService(AutoMappingHelper mapper)
+    {
+        _mapper = mapper;
+    }
+
+    public UserDto GetUserDto(UserEntity entity)
+    {
+        return _mapper.Map<UserEntity, UserDto>(entity)!;
+    }
+
+    public List<UserDto> GetUserDtos(IEnumerable<UserEntity> entities)
+    {
+        return _mapper.MapCollection<UserEntity, UserDto>(entities).ToList();
+    }
+
+    public void UpdateUser(UserDto dto, UserEntity entity)
+    {
+        _mapper.MapToExisting(dto, entity);
+    }
+}
 
 
 ```
+
 
 # JiaSyuanLibrary.NetFramework
 
