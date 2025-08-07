@@ -1,3 +1,32 @@
+# JiaSyuanLibrary.Net
+
+## AutoMappingHelper (DI 版本)
+
+本版本整合 AutoMappingHelper 與 AutoMapper 的 DI 擴充，透過模組化 Profile 註冊機制，簡化 AutoMapper 初始化流程與模組管理。
+
+---
+
+### 🔌 DI 整合說明
+
+可透過 `AddAutoMapperWithProfiles(...)` 擴充方法，註冊映射模組與 Profile。
+
+#### ✅ 使用範例
+```csharp
+// 手動註冊模組
+builder.Services.AddAutoMapperWithProfiles(reg =>
+{
+    AutoMapperModules.RegisterModules(reg);
+});
+
+// 自動掃描並註冊模組
+builder.Services.AddAutoMapperWithProfiles(reg =>
+{
+    AutoMapperModules.RegisterModulesAuto(reg);
+});
+
+
+```
+
 # JiaSyuanLibrary.NetFramework
 
 TargetFrameworkVersion:4.8.1
