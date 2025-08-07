@@ -8,10 +8,10 @@ namespace JiaSyuanLibrary.Helper
 {
     public static class ApiHelper
     {
-        private static string GetAPIContentType(EnumContentType ContentType)
+        private static string GetApiContentType(EnumContentType contentType)
         {
             string result;
-            switch (ContentType)
+            switch (contentType)
             {
                 case EnumContentType.json:
                     result = ConstSetting.ContentTypeJson;
@@ -81,27 +81,27 @@ namespace JiaSyuanLibrary.Helper
             }
 
             // 整理呼叫的url
-            string apiURL = CombinePath(apiServer, methodName) + getParam;
+            string apiUrl = CombinePath(apiServer, methodName) + getParam;
 
-            HttpWebRequest request = HttpWebRequest.Create(apiURL) as HttpWebRequest;
-            string PostTypeStr =string.Empty;
+            HttpWebRequest request = HttpWebRequest.Create(apiUrl) as HttpWebRequest;
+            string postTypeStr =string.Empty;
             switch (apiMethodType)
             {
                 case EnumApiMethodType.Post:
-                    PostTypeStr = WebRequestMethods.Http.Post;
+                    postTypeStr = WebRequestMethods.Http.Post;
                     break;
                 case EnumApiMethodType.Get:
-                    PostTypeStr = WebRequestMethods.Http.Get;
+                    postTypeStr = WebRequestMethods.Http.Get;
                     break;
                 case EnumApiMethodType.Put:
-                    PostTypeStr = WebRequestMethods.Http.Put;
+                    postTypeStr = WebRequestMethods.Http.Put;
                     break;
                 default:
                     break;
             }
-            request.Method = PostTypeStr; // 方法
+            request.Method = postTypeStr; // 方法
             request.KeepAlive = true; //是否保持連線
-            request.ContentType = GetAPIContentType(contentType);
+            request.ContentType = GetApiContentType(contentType);
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };//for https
             // 讓這個request最多等10分鐘
             request.Timeout = 600000;
@@ -113,8 +113,8 @@ namespace JiaSyuanLibrary.Helper
                 // 整理成呼叫的body paramter
                 if (apiMethodType != EnumApiMethodType.Get)
                 {
-                    string JSONParameterString = SerializeToJson<object>(parameter);
-                    byte[] bs = System.Text.Encoding.UTF8.GetBytes(JSONParameterString);
+                    string jsonParameterString = SerializeToJson<object>(parameter);
+                    byte[] bs = System.Text.Encoding.UTF8.GetBytes(jsonParameterString);
                     using (Stream reqStream = request.GetRequestStream())
                     {
                         reqStream.Write(bs, 0, bs.Length);

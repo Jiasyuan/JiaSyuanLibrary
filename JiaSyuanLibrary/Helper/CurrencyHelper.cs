@@ -8,7 +8,7 @@ namespace JiaSyuanLibrary.Helper
 {
     public static class CurrencyHelper
     {
-        private static readonly CultureInfo _twCulture = new CultureInfo("zh-TW");
+        private static readonly CultureInfo TwCulture = new CultureInfo("zh-TW");
         private static Regex _regFixOne = new Regex("(?<=[^壹貳參肆伍陸柒捌玖])(?=拾)");
 
         public static string ToString(this int value, CurrencyFormat format)
@@ -34,7 +34,7 @@ namespace JiaSyuanLibrary.Helper
             {
                 case CurrencyFormat.Chinese:
                     //ref http://blog.darkthread.net/post-2009-12-23-chinese-number-char.aspx
-                    var t = EastAsiaNumericFormatter.FormatWithCulture("L", value, null, _twCulture);
+                    var t = EastAsiaNumericFormatter.FormatWithCulture("L", value, null, TwCulture);
                     //修正EastAsiaNumericFormatter.FormatWithCulture出現"三百十"之問題，修正為三百一十的慣用寫法
                     var res = _regFixOne.Replace(t, m => "壹");
                     //拾萬需補為壹拾萬

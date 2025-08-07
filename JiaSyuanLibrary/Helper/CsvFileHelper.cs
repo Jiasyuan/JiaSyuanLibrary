@@ -12,14 +12,14 @@ namespace JiaSyuanLibrary.Helper
         /// <summary>
         /// CSV Generator
         /// </summary>
-        /// <param name="FilePath">target CSV path</param>
+        /// <param name="filePath">target CSV path</param>
         /// <param name="dataCollections">Data Collections</param>
         /// <param name="encoding">encoding</param>
         /// <param name="genColumn">output data property name</param>
         /// <param name="append"></param>
-        public static void CSVGenerator<T>( string FilePath, IList<T> dataCollections, Encoding encoding, bool genColumn =true, bool append = false)
+        public static void CsvGenerator<T>( string filePath, IList<T> dataCollections, Encoding encoding, bool genColumn =true, bool append = false)
         {
-            using (var file = new StreamWriter(FilePath, append, encoding))
+            using (var file = new StreamWriter(filePath, append, encoding))
             {
                 Type type = typeof(T);
                 PropertyInfo[] propInfos = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);

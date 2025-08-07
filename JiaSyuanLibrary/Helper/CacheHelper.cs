@@ -7,14 +7,14 @@ namespace JiaSyuanLibrary.Helper
     {
         protected class CacherInner<TCacheValueObject> : LazySingletonWrapBase<CacherInner<TCacheValueObject>>
         {
-            private readonly ICacheManager<TCacheValueObject> cacheManger;
+            private readonly ICacheManager<TCacheValueObject> _cacheManger;
 
             /// <summary>
             /// CacheManager 的內部功能設置
             /// </summary>
             public CacherInner()
             {
-                cacheManger = CacheFactory.Build<TCacheValueObject>(settings =>
+                _cacheManger = CacheFactory.Build<TCacheValueObject>(settings =>
                 {
                     settings
                         .WithSystemRuntimeCacheHandle();
@@ -35,11 +35,11 @@ namespace JiaSyuanLibrary.Helper
                 TCacheValueObject result;
                 if (region != default(string))
                 {
-                    result = cacheManger.Get<TCacheValueObject>(key, region);
+                    result = _cacheManger.Get<TCacheValueObject>(key, region);
                 }
                 else
                 {
-                    result = cacheManger.Get<TCacheValueObject>(key);
+                    result = _cacheManger.Get<TCacheValueObject>(key);
                 }
 
                 if (result == null)
@@ -47,7 +47,7 @@ namespace JiaSyuanLibrary.Helper
                     result = dataAccessProvideer();
                     if (result == null) { return result; }
 
-                    cacheManger.Put(new CacheItem<TCacheValueObject>(key, result, ExpirationMode.Absolute, expireTime));
+                    _cacheManger.Put(new CacheItem<TCacheValueObject>(key, result, ExpirationMode.Absolute, expireTime));
                 }
 
                 return result;
@@ -57,10 +57,10 @@ namespace JiaSyuanLibrary.Helper
             /// Update Cache Value
             /// </summary>
             /// <param name="key"></param>
-            /// <param name="UpdateSource"></param>
-            public void Update(string key, object UpdateSource)
+            /// <param name="updateSource"></param>
+            public void Update(string key, object updateSource)
             {
-                cacheManger.AddOrUpdate(key, (TCacheValueObject)UpdateSource, v => (TCacheValueObject)UpdateSource);
+                _cacheManger.AddOrUpdate(key, (TCacheValueObject)updateSource, v => (TCacheValueObject)updateSource);
 
             }
         }
@@ -80,31 +80,31 @@ namespace JiaSyuanLibrary.Helper
             return CacherInner<TCacheValueObject>.Instance.Get(key, dataAccessProvideer, region, expireTime);
         }
 
-        public static void Update<TCacheValueObject>(string key, TCacheValueObject UpdateSource)
+        public static void Update<TCacheValueObject>(string key, TCacheValueObject updateSource)
         {
-            CacherInner<TCacheValueObject>.Instance.Update(key, UpdateSource);
+            CacherInner<TCacheValueObject>.Instance.Update(key, updateSource);
         }
     }
 
     public class LazySingletonWrapBase<T>
     {
-        private static object _Instance;
-        static readonly object padlock = new object(); //用來LOCK建立instance的程
+        private static object _instance;
+        static readonly object Padlock = new object(); //用來LOCK建立instance的程
         public static T Instance
         {
             get
             {
-                if (_Instance == null)
+                if (_instance == null)
                 {
-                    lock (padlock) //lock此區段程式碼，讓其它thread無法進入。
+                    lock (Padlock) //lock此區段程式碼，讓其它thread無法進入。
                     {
-                        if (_Instance == null)
+                        if (_instance == null)
                         {
-                            _Instance = Activator.CreateInstance(typeof(T));
+                            _instance = Activator.CreateInstance(typeof(T));
                         }
                     }
                 }
-                return (T)_Instance;
+                return (T)_instance;
             }
 
         }

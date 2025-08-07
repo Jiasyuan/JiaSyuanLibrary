@@ -11,10 +11,10 @@ namespace JiaSyuanLibrary.Net.Extensions
         public static IServiceCollection AddAutoMapperWithProfiles(
             this IServiceCollection services,
             Action<IProfileRegistry> registerAction,
-            ILoggerFactory loggerFactory = null)
+            ILoggerFactory? loggerFactory = null)
         {
             var registry = new ProfileRegistry();
-            registerAction?.Invoke(registry);
+            registerAction.Invoke(registry);
 
             var configExp = new MapperConfigurationExpression();
             foreach (var profile in registry.GetAllProfiles())
