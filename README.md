@@ -10,19 +10,28 @@
 
 可透過 `AddAutoMapperWithProfiles(...)` 擴充方法，註冊映射模組與 Profile。
 
-#### ✅ 使用範例
+### 🛠️ DI 註冊方式
+
+✅ 記錄註冊過程與例外（建議用於開發環境）
+
 ```csharp
-// 手動註冊模組
-builder.Services.AddAutoMapperWithProfiles(reg =>
+services.AddAutoMapperWithProfiles(registry =>
 {
-    AutoMapperModules.RegisterModules(reg);
+    AutoMapperModules.RegisterModulesAuto(registry, loggerFactory?.CreateLogger("AutoMapperModules"));
+}, loggerFactory);
+
+
+🚫 不記錄註冊過程與例外（適用於簡化場景）
+
+```csharp
+services.AddAutoMapperWithProfiles(registry =>
+{
+    AutoMapperModules.RegisterModulesAuto(registry);
 });
 
-// 自動掃描並註冊模組
-builder.Services.AddAutoMapperWithProfiles(reg =>
-{
-    AutoMapperModules.RegisterModulesAuto(reg);
-});
+
+---
+
 
 
 ```

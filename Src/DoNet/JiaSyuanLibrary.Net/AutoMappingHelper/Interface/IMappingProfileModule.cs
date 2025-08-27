@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JiaSyuanLibrary.Net.AutoMappingHelper.Interface
+﻿namespace JiaSyuanLibrary.Net.AutoMappingHelper.Interface
 {
     public interface IMappingProfileModule
     {

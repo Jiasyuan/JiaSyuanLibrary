@@ -9,7 +9,10 @@ namespace JiaSyuanLibrary.Net.AutoMappingHelper.Core
 
         public void Register(string profileName, Action<IMapperConfigurationExpression> configAction)
         {
-            profiles.Add(configAction ?? (_ => { }));
+            profiles.Add(configAction ?? (_ =>
+            {
+
+            }));
         }
 
         public IEnumerable<Action<IMapperConfigurationExpression>> GetAllProfiles() => profiles;

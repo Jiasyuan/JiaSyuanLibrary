@@ -1,36 +1,34 @@
 ﻿using AutoMapper;
+using JiaSyuanLibrary.Net.AutoMappingHelper;
 using JiaSyuanLibrary.Net.AutoMappingHelper.Core;
 using JiaSyuanLibrary.Net.AutoMappingHelper.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace JiaSyuanLibrary.Net.Extensions
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static IServiceCollection AddAutoMapperWithProfiles(
+        this IServiceCollection services,
+        Action<IProfileRegistry> registerProfiles,
+        ILoggerFactory? loggerFactory = null)
     {
-        public static IServiceCollection AddAutoMapperWithProfiles(
-            this IServiceCollection services,
-            Action<IProfileRegistry> registerAction,
-            ILoggerFactory? loggerFactory = null)
+        var registry = new ProfileRegistry();
+        registerProfiles(registry);
+
+        var mapperConfig = new MapperConfiguration(cfg =>
         {
-            var registry = new ProfileRegistry();
-            registerAction.Invoke(registry);
-
-            var configExp = new MapperConfigurationExpression();
-            foreach (var profile in registry.GetAllProfiles())
+            foreach (var profileAction in registry.GetAllProfiles())
             {
-                profile.Invoke(configExp);
+                profileAction(cfg);
             }
+        }, loggerFactory);
 
-            var config = new MapperConfiguration(configExp, loggerFactory);
+        var mapper = mapperConfig.CreateMapper();
 
-            config.AssertConfigurationIsValid();
+        services.AddSingleton<IProfileRegistry>(registry);
+        services.AddSingleton<IMapper>(mapper);
+        services.AddSingleton<AutoMappingHelper>(); //註冊 AutoMappingHelper
 
-            IMapper mapper = new Mapper(config);
-            services.AddSingleton(mapper);
-
-            return services;
-        }
+        return services;
     }
-
 }
