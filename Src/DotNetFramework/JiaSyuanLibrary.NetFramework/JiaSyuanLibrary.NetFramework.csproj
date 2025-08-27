@@ -115,11 +115,14 @@
     <Compile Include="Helper\AutoMapping\AutoMappingHelper.cs" />
     <Compile Include="Helper\AutoMapping\MapperFactory.cs" />
     <Compile Include="Helper\AutoMapping\MappingProfileRegistry.cs" />
+    <Compile Include="Helper\FixLengthFormatter\Attribute\FixLengthAttribute.cs" />
+    <Compile Include="Helper\FixLengthFormatter\FixLengthFormatterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
