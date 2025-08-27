@@ -19,7 +19,7 @@ services.AddAutoMapperWithProfiles(registry =>
 {
     AutoMapperModules.RegisterModulesAuto(registry, loggerFactory?.CreateLogger("AutoMapperModules"));
 }, loggerFactory);
-
+```
 
 🚫 不記錄註冊過程與例外（適用於簡化場景）
 
@@ -28,13 +28,63 @@ services.AddAutoMapperWithProfiles(registry =>
 {
     AutoMapperModules.RegisterModulesAuto(registry);
 });
+```
 
+🧩 實作模組：IMappingProfileModule
+
+每個模組需實作 IMappingProfileModule 並註冊 Profile：
+
+```csharp
+using AutoMapper;
+using JiaSyuanLibrary.Net.AutoMappingHelper.Interface;
+
+public class UserProfileModule : IMappingProfileModule
+{
+    public void Register(IProfileRegistry registry)
+    {
+        registry.Register(nameof(UserProfileModule), cfg =>
+        {
+            cfg.CreateMap<UserEntity, UserDto>();
+            cfg.CreateMap<UserDto, UserEntity>();
+        });
+    }
+}
+
+```
+
+📘 使用 AutoMappingHelper
+注入 AutoMappingHelper 並使用：
+
+
+```csharp
+public class UserService
+{
+    private readonly AutoMappingHelper _mapper;
+
+    public UserService(AutoMappingHelper mapper)
+    {
+        _mapper = mapper;
+    }
+
+    public UserDto GetUserDto(UserEntity entity)
+    {
+        return _mapper.Map<UserEntity, UserDto>(entity)!;
+    }
+
+    public List<UserDto> GetUserDtos(IEnumerable<UserEntity> entities)
+    {
+        return _mapper.MapCollection<UserEntity, UserDto>(entities).ToList();
+    }
+
+    public void UpdateUser(UserDto dto, UserEntity entity)
+    {
+        _mapper.MapToExisting(dto, entity);
+    }
+}
+```
 
 ---
 
-
-
-```
 
 # JiaSyuanLibrary.NetFramework
 
