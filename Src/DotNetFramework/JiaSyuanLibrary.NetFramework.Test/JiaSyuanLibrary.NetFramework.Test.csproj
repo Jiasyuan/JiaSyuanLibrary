@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\AutoMapping\AutoMappingHelperTests.cs" />
+    <Compile Include="Helper\FixLengthFormatter\FixLengthFormatterHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
