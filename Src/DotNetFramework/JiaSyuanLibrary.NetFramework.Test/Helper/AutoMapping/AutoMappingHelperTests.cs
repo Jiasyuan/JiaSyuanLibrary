@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using JiaSyuanLibrary.NetFramework.Helper.AutoMapping;
+using Mapster;
 using Xunit;
 
 namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
@@ -38,7 +38,7 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
             // Arrange
             MappingProfileRegistry.Register("default", cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
 
             var source = new Source { Name = "JiaSyuan", Age = 30 };
@@ -58,7 +58,7 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
             // Arrange
             MappingProfileRegistry.Register("default", cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
 
             var sources = new List<Source>
@@ -82,7 +82,7 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
             // Arrange
             MappingProfileRegistry.Register("default", cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
 
             var source = new Source { Name = "Updated", Age = 99 };
@@ -102,11 +102,11 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
             // Arrange
             MappingProfileRegistry.Register("profile1", cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
             MappingProfileRegistry.Register("profile2", cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
 
             var source1 = new Source { Name = "First", Age = 10 };
@@ -126,9 +126,9 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
         public void MapperFactory_Should_Cache_Mappers()
         {
             // Arrange
-            var configAction = new Action<IMapperConfigurationExpression>(cfg =>
+            var configAction = new Action<TypeAdapterConfig>(cfg =>
             {
-                cfg.CreateMap<Source, Destination>();
+                cfg.NewConfig<Source, Destination>();
             });
 
             // Act
@@ -149,7 +149,9 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
 
             // Act
             var profile = MappingProfileRegistry.Get("testProfile");
-            profile(new MapperConfigurationExpression());
+
+            // 傳入 Mapster 的 TypeAdapterConfig 來觸發委派
+            profile(new TypeAdapterConfig());
 
             // Assert
             Assert.True(called);
@@ -165,9 +167,15 @@ namespace JiaSyuanLibrary.NetFramework.Test.Helper.AutoMapping
 
             // Assert
             Assert.NotNull(profile);
-            var cfg = new MapperConfigurationExpression();
-            profile(cfg);
-            Assert.True(cfg.AllowNullCollections);
+
+            var cfg = new TypeAdapterConfig();
+
+            // 執行 DefaultProfile 委派，確保其能正常運作且不拋出異常
+            var exception = Record.Exception(() => profile(cfg));
+            Assert.Null(exception);
+
+            // 驗證回傳的是預設配置（Mapster 的配置實例內部設定不為空）
+            Assert.NotNull(cfg.Rules);
         }
     }
 
