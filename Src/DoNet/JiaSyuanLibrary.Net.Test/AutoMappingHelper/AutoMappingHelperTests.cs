@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using MapsterMapper;
 using Moq;
 
 namespace JiaSyuanLibrary.Net.Test.AutoMappingHelper

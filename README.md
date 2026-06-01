@@ -2,31 +2,31 @@
 
 ## AutoMappingHelper (DI 版本)
 
-本版本整合 AutoMappingHelper 與 AutoMapper 的 DI 擴充，透過模組化 Profile 註冊機制，簡化 AutoMapper 初始化流程與模組管理。
+本版本整合 AutoMappingHelper 與 MapsterMapper 的 DI 擴充，透過模組化 Profile 註冊機制，簡化 MapsterMapper 初始化流程與模組管理。
 
 ---
 
 ### 🔌 DI 整合說明
 
-可透過 `AddAutoMapperWithProfiles(...)` 擴充方法，註冊映射模組與 Profile。
+可透過 `AddMapsterWithProfiles(...)` 擴充方法，註冊映射模組與 Profile。
 
 ### 🛠️ DI 註冊方式
 
 ✅ 記錄註冊過程與例外（建議用於開發環境）
 
 ```csharp
-services.AddAutoMapperWithProfiles(registry =>
+services.AddMapsterWithProfiles(registry =>
 {
-    AutoMapperModules.RegisterModulesAuto(registry, loggerFactory?.CreateLogger("AutoMapperModules"));
+    MapperModules.RegisterModulesAuto(registry, loggerFactory?.CreateLogger("AutoMapperModules"));
 }, loggerFactory);
 ```
 
 🚫 不記錄註冊過程與例外（適用於簡化場景）
 
 ```csharp
-services.AddAutoMapperWithProfiles(registry =>
+services.AddMapsterWithProfiles(registry =>
 {
-    AutoMapperModules.RegisterModulesAuto(registry);
+    MapperModules.RegisterModulesAuto(registry);
 });
 ```
 
@@ -44,8 +44,8 @@ public class UserProfileModule : IMappingProfileModule
     {
         registry.Register(nameof(UserProfileModule), cfg =>
         {
-            cfg.CreateMap<UserEntity, UserDto>();
-            cfg.CreateMap<UserDto, UserEntity>();
+            cfg.NewConfig<UserEntity, UserDto>();
+            cfg.NewConfig<UserDto, UserEntity>();
         });
     }
 }

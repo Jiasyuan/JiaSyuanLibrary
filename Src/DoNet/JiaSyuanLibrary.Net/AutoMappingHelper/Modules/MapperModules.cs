@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace JiaSyuanLibrary.Net.AutoMappingHelper.Modules
 {
-    public static class AutoMapperModules
+    public static class MapperModules
     {
         public static void RegisterModulesAuto(IProfileRegistry registry, ILogger? logger = null)
         {
