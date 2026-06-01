@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using Mapster;
 
 namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
 {
@@ -13,9 +13,10 @@ namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
         {
             if (source == null) return default;
 
-            Action<IMapperConfigurationExpression> configAction = delegate (IMapperConfigurationExpression cfg)
+            Action<TypeAdapterConfig> configAction = delegate (TypeAdapterConfig cfg)
             {
-                cfg.CreateMap<TIn, TOut>(MemberList.None);
+                // 建立基本對映
+                cfg.NewConfig<TIn, TOut>();
                 var profile = MappingProfileRegistry.Get(profileName);
                 if (profile != null) profile(cfg);
             };
@@ -30,9 +31,9 @@ namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
         {
             if (source == null || !source.Any()) return Enumerable.Empty<TOut>();
 
-            Action<IMapperConfigurationExpression> configAction = delegate (IMapperConfigurationExpression cfg)
+            Action<TypeAdapterConfig> configAction = delegate (TypeAdapterConfig cfg)
             {
-                cfg.CreateMap<TIn, TOut>(MemberList.None);
+                cfg.NewConfig<TIn, TOut>();
                 var profile = MappingProfileRegistry.Get(profileName);
                 if (profile != null) profile(cfg);
             };
@@ -47,14 +48,16 @@ namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
         {
             if (source == null || target == null) return target;
 
-            Action<IMapperConfigurationExpression> configAction = delegate (IMapperConfigurationExpression cfg)
+            Action<TypeAdapterConfig> configAction = delegate (TypeAdapterConfig cfg)
             {
-                cfg.CreateMap<TIn, TOut>(MemberList.None);
+                cfg.NewConfig<TIn, TOut>();
                 var profile = MappingProfileRegistry.Get(profileName);
                 if (profile != null) profile(cfg);
             };
 
             var mapper = MapperFactory.GetMapper(configAction, profileName);
+
+            // Mapster 映射到既有物件的語法
             return mapper.Map(source, target);
         }
 

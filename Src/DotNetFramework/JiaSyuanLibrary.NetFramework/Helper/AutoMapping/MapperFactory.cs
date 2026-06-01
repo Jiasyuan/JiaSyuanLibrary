@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
+using Mapster;
+using MapsterMapper;
 
 namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
 {
@@ -10,27 +10,30 @@ namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
     /// </summary>
     public static class MapperFactory
     {
+        // 快取 Mapster 的 IMapper 實例
         private static readonly ConcurrentDictionary<string, Lazy<IMapper>> MapperCache
             = new ConcurrentDictionary<string, Lazy<IMapper>>();
 
         /// <summary>
-        /// 根據指定的配置委派建立 IMapper 實例，並可選用 loggerFactory。
+        /// 根據指定的配置委派建立 IMapper 實例
         /// </summary>
-        public static IMapper GetMapper(Action<IMapperConfigurationExpression> configAction,
-            string cacheKey = "default",
-            ILoggerFactory loggerFactory = null)
+        public static IMapper GetMapper(Action<TypeAdapterConfig> configAction, string cacheKey = "default")
         {
             if (configAction == null)
                 throw new ArgumentNullException(nameof(configAction));
 
             var lazyMapper = MapperCache.GetOrAdd(cacheKey, _ => new Lazy<IMapper>(() =>
             {
-                var cfgExp = new MapperConfigurationExpression();
-                configAction.Invoke(cfgExp);
+                // 1. 建立獨立的 Mapster 配置設定
+                var config = new TypeAdapterConfig();
 
-                var config = new MapperConfiguration(cfgExp, loggerFactory);
-                config.AssertConfigurationIsValid();
+                // 2. 注入外部規則
+                configAction.Invoke(config);
 
+                // 3. 預先編譯並驗證（等同於 AssertConfigurationIsValid）
+                config.Compile();
+
+                // 4. 回傳綁定此獨立配置的 Mapper 實例
                 return new Mapper(config);
             }));
 
@@ -47,5 +50,4 @@ namespace JiaSyuanLibrary.NetFramework.Helper.AutoMapping
         /// </summary>
         public static void ClearCache() => MapperCache.Clear();
     }
-
 }
